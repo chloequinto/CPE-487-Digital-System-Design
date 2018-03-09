@@ -1,0 +1,51 @@
+--You are provided with two basic components: a 1 bit full adder and a 2 input AND gate. Build a structural 
+--model of a 4x4 unsigned mulitplier 
+
+
+library IEEE; 
+use IEEE.std_logic_1164.all; 
+use IEEE.std_logic_unsigned.all; 
+
+
+--Entity to create 4 x 1 unsigned multiply 
+entity mpy4x1 is 
+  port(x: in std_logic_vector(3 downto 0); 
+      y: in std_logic; 
+      z: out std_logic_vector(3 downto 0)); 
+end entity mpy4x1; 
+
+architecture struct of mpy4x1 is 
+  component and2
+    port(a, b: in std_logic; 
+        c:out std_logic); 
+  end component and2;
+
+begin
+bit3: and2 port map (a=>x(3), b=>y, c=>z(3));
+bit2: and2 port map (a=>x(2), b=>y, c=>z(2));
+bit1: and2 port map (a=>x(1), b=>y, c=>z(1));
+bit0: and2 port map (a=>x(0), b=>y, c=>z(0));
+end struct;
+
+--Entity to create a 4 bit adder
+entity add4 is 
+  port (a, b: in std_logic_vector (3 downto 0); 
+      cin: in std_logic; 
+      sum: out std_logic_vector(3 downto 0); 
+      cout: out std_logic); 
+end entity add4; 
+
+
+architecture struct of add4 is 
+ signal c: std_logic_vector(2 downto 0); 
+  component fadd
+    port (a, b, sin: in std_logic; 
+          sum, cout: out std_logic); 
+  end component fadd; 
+  
+  begin 
+  x0: fadd port map (a => a(0), b => b(0), cin=>cin, sum=>sum(0), cout => c(0)); 
+  x1: fadd port map (a => a(1), b => b(0), cin=>cin, sum=>sum(1), cout => c(1)); 
+  x2: fadd port map (a => a(2), b => b(0), cin=>cin, sum=>sum(2), cout => c(2)); 
+  x3: fadd port map (a => a(3), b => b(0), cin=>cin, sum=>sum(3), cout => cout); 
+  end struct; 
