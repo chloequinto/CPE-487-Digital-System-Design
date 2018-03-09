@@ -1,0 +1,36 @@
+library IEEE; 
+use IEEE.std_logic_1164.all; 
+
+entity hamming is
+  port(A, B: in std_logic_vector (15 downto 0); 
+    reset, clk: in std_logic; 
+    Z: out std_logic_vector(2 downto 0); 
+    equal: out std_logic); 
+end entity hamming; 
+
+architecture behavioral of hamming is 
+begin 
+
+p1: process (reset, clk)
+  variable count: integer; 
+    begin 
+      if reset = '1' then 
+        z = "000";
+        equal ='0';
+      elsif clk' event and clk='0' then 
+        h_count:='0';
+        for i in 0 to 15 loop
+          if (A(i) not xor B(i)) then
+            h_count:= h_count +1; 
+          end loop;
+          if h_cnt >7 then
+              h_cnt:=7; 
+          else equal <="1";
+      end if; 
+    end if; 
+end process; 
+
+end architecture behavioral; 
+    
+
+
